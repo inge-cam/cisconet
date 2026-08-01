@@ -1,6 +1,6 @@
 # Web Parroquia San Chárbel
 
-Sitio web para una parroquia católica bajo la advocación de San Chárbel Makhlouf.
+Sitio web para la parroquia bajo la advocación de San Chárbel Makhlouf, en **Villa Carolina, Barranquilla (Atlántico, Colombia)**.
 
 ## Estado
 
@@ -32,11 +32,21 @@ Inicio | La Parroquia | San Chárbel | Sacramentos | Comunidad | Contacto    [Do
 
 13 páginas en el lanzamiento, ampliables a ~22 en una segunda fase. La portada se organiza en 11 bloques, de los cuales dos son fijos: los **horarios de misa sin necesidad de hacer scroll** y el **bloque devocional a San Chárbel** con el formulario de peticiones.
 
-El sistema visual se apoya en tres constantes: fondo crema, superficies oscuras y dorado como único acento. Botones siempre pill, títulos en serif con regla dorada debajo, sombras muy suaves y el patrón de icono circular repetido en todo el sitio.
+## Identidad visual
+
+Café como color base, **dorado** como acento principal y **verde solo en cuatro usos puntuales** (etiquetas, estados de éxito, botón de WhatsApp y la marca de agua de cedro y olivo). Fondo crema, tarjetas blancas, sombras muy suaves.
+
+Botones siempre pill, títulos en **Playfair Display** con regla dorada debajo, texto en **Nunito Sans**, y el patrón de icono circular repetido en todo el sitio.
+
+## Fuera de alcance
+
+- **Transmisiones en vivo.** No habrá misas en línea ni página `/transmisiones`.
+- **Donaciones en línea.** Habrá donaciones y con volumen, pero la pasarela y su interfaz se diseñan después. En fase 1, `/donar` es una página simple con los datos de aporte.
 
 ## Próximos pasos
 
-1. Resolver las preguntas abiertas de la sección 12 de `03-sistema-de-diseno.md` (verde vs. café, fuentes definitivas, Ministerios vs. Pastorales, alcance de donaciones).
-2. Resolver las decisiones pendientes de la sección 6 de `02-arquitectura-propuesta.md` (día de la misa mensual al santo, rito, ciudad y diócesis, quién mantiene el sitio).
+1. Confirmar el único punto abierto de la sección 12.1 de `03-sistema-de-diseno.md` (si el formulario de peticiones a San Chárbel sigue en pie).
+2. Resolver las decisiones pendientes en la parroquia: día de la misa mensual al santo, fiesta patronal, rito, dirección exacta y quién mantiene el sitio.
 3. Montar el proyecto Astro con los tokens y los componentes base de `layout/` y `ui/`.
-4. Redactar los textos reales de las páginas de la fase 1.
+4. Conseguir fotos reales del templo, el párroco y las pastorales.
+5. Redactar los textos de las páginas de la fase 1.
