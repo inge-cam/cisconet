@@ -1,0 +1,16 @@
+# Dependencias
+node_modules/
+
+# Build
+dist/
+.astro/
+
+# Entorno — nunca subir claves de Supabase
+.env
+.env.local
+.env.production
+
+# Sistema
+.DS_Store
+*.log
+npm-debug.log*

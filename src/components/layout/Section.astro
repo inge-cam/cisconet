@@ -1,0 +1,37 @@
+---
+import Container from './Container.astro';
+
+/**
+ * Sección con el ritmo vertical del sistema (§3.1): 96px en escritorio,
+ * 56px en móvil. Opcionalmente con fondo de banda a ancho completo.
+ */
+interface Props {
+  /** Fondo de la sección. `alt` sangra a ancho completo con crema (§4.3) */
+  fondo?: 'canvas' | 'alt' | 'dark';
+  /** Quita el padding superior, para encadenar dos secciones del mismo color */
+  sinTop?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const { fondo = 'canvas', sinTop = false, id, class: className = '' } = Astro.props;
+
+const fondos = {
+  canvas: '',
+  alt: 'bg-canvas-alt',
+  dark: 'bg-ink on-dark text-on-dark',
+};
+---
+
+<section
+  id={id}
+  class:list={[
+    fondos[fondo],
+    sinTop ? 'pb-14 md:pb-24' : 'py-14 md:py-24',
+    className,
+  ]}
+>
+  <Container>
+    <slot />
+  </Container>
+</section>

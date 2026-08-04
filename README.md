@@ -4,13 +4,42 @@ Sitio web para la parroquia bajo la advocación de San Chárbel Makhlouf, en **V
 
 ## Estado
 
-**Fase actual: sistema de diseño.** La arquitectura de información está definida y el sistema visual está derivado de los mockups.
+**Fase actual: implementación.** La arquitectura y el sistema de diseño están cerrados. El proyecto Astro ya corre, con los tokens, el encabezado, el pie y los bloques 2, 3, 5 y 6 de la portada.
 
 ## Stack
 
 - **Frontend:** Astro (estático, con islas de JS nativo)
-- **Backend:** Supabase (contenido dinámico, formularios, almacenamiento)
-- **Estilos:** Tailwind sobre tokens en variables CSS
+- **Backend:** Supabase (contenido dinámico, formularios, almacenamiento) — pendiente
+- **Estilos:** Tailwind v4 sobre tokens en variables CSS
+- **Iconos:** Lucide (los de redes van aparte: Lucide retiró los de marcas)
+
+## Cómo correrlo
+
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # compila a dist/
+npm run check    # tipos y accesibilidad de Astro
+```
+
+## Estructura
+
+```
+src/
+├── components/
+│   ├── layout/   Header, Footer, Container, Section
+│   ├── ui/       Button, SectionHeader, Chip, IconoCircular, IconoRed
+│   ├── cards/    NeedCard
+│   └── blocks/   Hero, InfoBar, InfoBarItem, PromoBand
+├── config/       sitio.ts — datos de la parroquia y menú
+├── layouts/      BaseLayout
+├── styles/       tokens.css · base.css · global.css
+└── pages/
+```
+
+**`src/styles/tokens.css` es la fuente de verdad.** Tailwind genera sus utilidades a partir de ese bloque `@theme`, así que cambiar un color ahí cambia todo el sitio. Nunca escribas un hex ni un espaciado suelto dentro de un componente.
+
+Los datos de la parroquia (dirección, teléfonos, redes) están en `src/config/sitio.ts`, vacíos a la espera de los reales.
 
 ## Documentación
 
@@ -45,8 +74,8 @@ Botones siempre pill, títulos en **Playfair Display** con regla dorada debajo, 
 
 ## Próximos pasos
 
-1. Confirmar el único punto abierto de la sección 12.1 de `03-sistema-de-diseno.md` (si el formulario de peticiones a San Chárbel sigue en pie).
-2. Resolver las decisiones pendientes en la parroquia: día de la misa mensual al santo, fiesta patronal, rito, dirección exacta y quién mantiene el sitio.
-3. Montar el proyecto Astro con los tokens y los componentes base de `layout/` y `ui/`.
-4. Conseguir fotos reales del templo, el párroco y las pastorales.
-5. Redactar los textos de las páginas de la fase 1.
+1. Completar la portada: bloques 4 (bienvenida del párroco), 7 (próximas celebraciones), 8 (comunidad), 9 (noticias) y 10 (cómo llegar).
+2. Construir `/horarios`, `/sacramentos` y `/san-charbel`, que son las tres páginas más consultadas.
+3. Conectar Supabase: tablas, RLS y consultas de agenda, noticias y horarios.
+4. Confirmar el punto abierto de la sección 12.1 de `03-sistema-de-diseno.md` (si el formulario de peticiones sigue en pie).
+5. Conseguir fotos reales del templo, el párroco y las pastorales, y los datos de contacto para `src/config/sitio.ts`.

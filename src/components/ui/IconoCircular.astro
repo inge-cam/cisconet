@@ -1,0 +1,39 @@
+---
+/**
+ * Icono dentro de círculo — §5.1.
+ *
+ * El patrón más repetido del sistema: aparece en horarios, virtudes,
+ * contacto, pastorales y en la barra flotante del hero.
+ */
+interface Props {
+  tamano?: 40 | 56 | 72;
+  /** `blanco` es para el icono que flota sobre la imagen en ServiceCard */
+  variante?: 'crema' | 'blanco';
+  class?: string;
+}
+
+const { tamano = 56, variante = 'crema', class: className = '' } = Astro.props;
+
+const tamanos = {
+  40: 'size-10 [&>svg]:size-5',
+  56: 'size-14 [&>svg]:size-6',
+  72: 'size-18 [&>svg]:size-7',
+};
+
+const variantes = {
+  crema: 'bg-gold-100',
+  blanco: 'bg-surface shadow-sm',
+};
+---
+
+<span
+  class:list={[
+    'inline-flex shrink-0 items-center justify-center rounded-full text-gold-500',
+    tamanos[tamano],
+    variantes[variante],
+    className,
+  ]}
+  aria-hidden="true"
+>
+  <slot />
+</span>

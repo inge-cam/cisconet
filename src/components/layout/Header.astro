@@ -1,0 +1,256 @@
+---
+import { Heart, ChevronDown, Menu, X } from '@lucide/astro';
+import Container from './Container.astro';
+import Button from '../ui/Button.astro';
+import { MENU, PARROQUIA } from '../../config/sitio';
+
+/**
+ * Encabezado — §6.1.
+ *
+ * Seis ítems (decisión §0.2: NO son los 8 de los mockups) + botón Donar.
+ * Con 6 ítems sobra espacio, así que la separación sube a 32px y el
+ * wordmark va completo, sin abreviar.
+ */
+interface Props {
+  /** `transparent` solo si la página abre con hero. Si no, `solid`. */
+  variante?: 'transparent' | 'solid';
+}
+
+const { variante = 'solid' } = Astro.props;
+
+const ruta = Astro.url.pathname;
+const esActivo = (href: string) =>
+  href === '/' ? ruta === '/' : ruta.startsWith(href);
+---
+
+<header
+  data-header
+  data-variante={variante}
+  class:list={[
+    'on-dark fixed top-0 right-0 left-0 z-50 transition-colors duration-300',
+    variante === 'transparent' ? 'bg-transparent' : 'bg-surface-dark',
+  ]}
+>
+  <Container>
+    <div class="flex h-16 items-center justify-between md:h-18">
+      <!-- Marca -->
+      <a href="/" class="flex items-center gap-3" aria-label={`${PARROQUIA.nombre} — Inicio`}>
+        <span
+          class="grid size-10 shrink-0 place-items-center rounded-full bg-gold-100 font-display text-h4 text-brown-800"
+          aria-hidden="true"
+        >
+          SC
+        </span>
+        <span class="leading-tight">
+          <span class="text-overline block text-gold-300">Parroquia</span>
+          <span class="block font-display text-[1.0625rem] font-bold text-on-dark">
+            San Chárbel
+          </span>
+        </span>
+      </a>
+
+      <!-- Navegación de escritorio -->
+      <nav class="hidden lg:block" aria-label="Principal">
+        <ul class="flex items-center gap-8">
+          {
+            MENU.map((item) => (
+              <li class="group relative">
+                <a
+                  href={item.href}
+                  aria-current={esActivo(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'text-body-s inline-flex items-center gap-1 py-6 font-semibold transition-colors',
+                    esActivo(item.href)
+                      ? 'text-gold-500'
+                      : 'text-on-dark hover:text-gold-300',
+                  ]}
+                >
+                  {item.nombre}
+                  {item.hijos && <ChevronDown class="size-4" aria-hidden="true" />}
+                  {esActivo(item.href) && (
+                    <span class="absolute inset-x-0 bottom-4 h-0.5 rounded-full bg-gold-500" />
+                  )}
+                </a>
+
+                {item.hijos && (
+                  <ul
+                    class="invisible absolute top-full left-0 min-w-56 rounded-md border border-line bg-surface p-2 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+                  >
+                    {item.hijos.map((hijo) => (
+                      <li>
+                        <a
+                          href={hijo.href}
+                          class="text-body-s block rounded-sm px-3 py-2 text-text-700 transition-colors hover:bg-cream-100 hover:text-gold-600"
+                        >
+                          {hijo.nombre}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <!-- Visible en todos los tamaños: las donaciones pesan para la
+             parroquia, y a 360px todavía entra junto al wordmark. -->
+        <Button href="/donar" tamano="sm">
+          <Heart slot="icono" class="size-4" aria-hidden="true" />
+          Donar
+        </Button>
+
+        <!-- Disparador del menú móvil -->
+        <button
+          type="button"
+          data-menu-abrir
+          class="grid size-11 place-items-center rounded-full text-on-dark lg:hidden"
+          aria-label="Abrir menú"
+          aria-expanded="false"
+          aria-controls="menu-movil"
+        >
+          <Menu class="size-6" aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </Container>
+</header>
+
+<!-- Menú móvil: panel completo, foco atrapado, cierre con Esc (§6.1) -->
+<div
+  id="menu-movil"
+  data-menu-panel
+  class="fixed inset-0 z-60 hidden bg-ink lg:hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú principal"
+>
+  <div class="on-dark flex h-full flex-col overflow-y-auto">
+    <Container>
+      <div class="flex h-16 items-center justify-between">
+        <span class="font-display text-h4 text-on-dark">Menú</span>
+        <button
+          type="button"
+          data-menu-cerrar
+          class="grid size-11 place-items-center rounded-full text-on-dark"
+          aria-label="Cerrar menú"
+        >
+          <X class="size-6" aria-hidden="true" />
+        </button>
+      </div>
+
+      <nav class="pb-10" aria-label="Principal móvil">
+        <ul class="divide-y divide-white/10">
+          {
+            MENU.map((item) => (
+              <li class="py-1">
+                <a
+                  href={item.href}
+                  aria-current={esActivo(item.href) ? 'page' : undefined}
+                  class:list={[
+                    'block py-3 font-display text-h3',
+                    esActivo(item.href) ? 'text-gold-500' : 'text-on-dark',
+                  ]}
+                >
+                  {item.nombre}
+                </a>
+                {item.hijos && (
+                  <ul class="pb-3">
+                    {item.hijos.map((hijo) => (
+                      <li>
+                        <a
+                          href={hijo.href}
+                          class="text-body block py-2 text-on-dark-muted"
+                        >
+                          {hijo.nombre}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+
+        <Button href="/donar" ancho class="mt-8">
+          <Heart slot="icono" class="size-4" aria-hidden="true" />
+          Donar
+        </Button>
+      </nav>
+    </Container>
+  </div>
+</div>
+
+<script>
+  // --- Encabezado transparente que se vuelve sólido al hacer scroll (§6.1)
+  const header = document.querySelector<HTMLElement>('[data-header]');
+
+  if (header?.dataset.variante === 'transparent') {
+    const alSalir = () => {
+      const desplazado = window.scrollY > 80;
+      header.classList.toggle('bg-surface-dark', desplazado);
+      header.classList.toggle('shadow-sm', desplazado);
+      header.classList.toggle('bg-transparent', !desplazado);
+    };
+    alSalir();
+    window.addEventListener('scroll', alSalir, { passive: true });
+  }
+
+  // --- Menú móvil: abrir, cerrar, atrapar el foco
+  const panel = document.querySelector<HTMLElement>('[data-menu-panel]');
+  const abrir = document.querySelector<HTMLButtonElement>('[data-menu-abrir]');
+  const cerrar = document.querySelector<HTMLButtonElement>('[data-menu-cerrar]');
+
+  if (panel && abrir && cerrar) {
+    const enfocables = () =>
+      Array.from(
+        panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'),
+      ).filter((el) => el.offsetParent !== null);
+
+    const abrirMenu = () => {
+      panel.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      abrir.setAttribute('aria-expanded', 'true');
+      cerrar.focus();
+    };
+
+    const cerrarMenu = () => {
+      panel.classList.add('hidden');
+      document.body.style.overflow = '';
+      abrir.setAttribute('aria-expanded', 'false');
+      abrir.focus();
+    };
+
+    abrir.addEventListener('click', abrirMenu);
+    cerrar.addEventListener('click', cerrarMenu);
+
+    document.addEventListener('keydown', (e) => {
+      if (panel.classList.contains('hidden')) return;
+
+      if (e.key === 'Escape') {
+        cerrarMenu();
+        return;
+      }
+
+      // Ciclar el foco dentro del panel mientras está abierto
+      if (e.key === 'Tab') {
+        const items = enfocables();
+        if (items.length === 0) return;
+
+        const primero = items[0];
+        const ultimo = items[items.length - 1];
+
+        if (e.shiftKey && document.activeElement === primero) {
+          e.preventDefault();
+          ultimo.focus();
+        } else if (!e.shiftKey && document.activeElement === ultimo) {
+          e.preventDefault();
+          primero.focus();
+        }
+      }
+    });
+  }
+</script>

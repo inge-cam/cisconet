@@ -1,0 +1,73 @@
+---
+import Container from '../layout/Container.astro';
+
+/**
+ * Hero — §6.5. Cuatro variantes.
+ *
+ * Las imágenes nunca van limpias: siempre llevan el overlay de §1.4 para
+ * garantizar la legibilidad del texto encima.
+ *
+ * Mientras no haya fotos reales de la parroquia (§12.2), el fondo cae en un
+ * degradado de la paleta. No se usan bancos de imágenes.
+ */
+interface Props {
+  variante?: 'home' | 'page' | 'light' | 'detail';
+  imagen?: string;
+  /** Texto alternativo de la imagen de fondo. Vacío si es decorativa. */
+  imagenAlt?: string;
+  class?: string;
+}
+
+const { variante = 'page', imagen, imagenAlt = '', class: className = '' } = Astro.props;
+
+const alturas = {
+  home: 'min-h-[520px] md:min-h-[620px]',
+  page: 'min-h-[240px] md:min-h-[300px]',
+  light: 'min-h-[380px] md:min-h-[480px]',
+  detail: 'min-h-[420px] md:min-h-[520px]',
+};
+
+const esClaro = variante === 'light';
+---
+
+<section
+  class:list={[
+    'relative flex items-center overflow-hidden',
+    alturas[variante],
+    !esClaro && 'on-dark bg-brown-900',
+    esClaro && 'bg-cream-100',
+    className,
+  ]}
+>
+  {
+    imagen ? (
+      <img
+        src={imagen}
+        alt={imagenAlt}
+        class="absolute inset-0 size-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+      />
+    ) : (
+      /* Marcador mientras llegan las fotos reales */
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-brown-700 via-brown-800 to-brown-900"
+        aria-hidden="true"
+      />
+    )
+  }
+
+  <!-- Overlay: garantiza el contraste del texto (§1.4) -->
+  <div
+    class="absolute inset-0"
+    style={`background: var(${esClaro ? '--overlay-light' : '--overlay-dark'})`}
+    aria-hidden="true"
+  >
+  </div>
+
+  <Container class="relative py-16 md:py-20">
+    <div class="max-w-[620px]">
+      <slot />
+    </div>
+  </Container>
+</section>

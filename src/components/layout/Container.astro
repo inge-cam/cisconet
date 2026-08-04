@@ -1,0 +1,17 @@
+---
+/**
+ * Contenedor de 1200px con gutters (§4.1).
+ * Todo el contenido del sitio vive dentro de uno de estos, incluido el
+ * contenido de los bloques que sangran a ancho completo.
+ */
+interface Props {
+  class?: string;
+  as?: 'div' | 'section' | 'header' | 'footer' | 'nav';
+}
+
+const { class: className = '', as: Tag = 'div' } = Astro.props;
+---
+
+<Tag class:list={['mx-auto w-full max-w-[var(--container-max)] px-4 md:px-6', className]}>
+  <slot />
+</Tag>

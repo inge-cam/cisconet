@@ -1,0 +1,47 @@
+---
+/**
+ * Encabezado de sección — §6.3.
+ * Título serif + regla dorada de 48×3px + subtítulo opcional.
+ *
+ * La alineación se decide POR PÁGINA COMPLETA, no por sección suelta.
+ */
+interface Props {
+  titulo: string;
+  subtitulo?: string;
+  /** Nivel semántico real. El tamaño no cambia: lo fija la escala. */
+  nivel?: 'h2' | 'h3';
+  align?: 'left' | 'center';
+  /** Texto pequeño en mayúsculas sobre el título */
+  eyebrow?: string;
+  class?: string;
+}
+
+const {
+  titulo,
+  subtitulo,
+  nivel: Titulo = 'h2',
+  align = 'left',
+  eyebrow,
+  class: className = '',
+} = Astro.props;
+
+const centrado = align === 'center';
+---
+
+<div class:list={[centrado && 'flex flex-col items-center text-center', className]}>
+  {
+    eyebrow && (
+      <p class="text-overline mb-3 text-gold-600">{eyebrow}</p>
+    )
+  }
+
+  <Titulo class="text-h2">{titulo}</Titulo>
+
+  <div class="mt-3 h-[3px] w-12 rounded-full bg-accent"></div>
+
+  {
+    subtitulo && (
+      <p class="text-body mt-5 max-w-[60ch] text-text-500">{subtitulo}</p>
+    )
+  }
+</div>

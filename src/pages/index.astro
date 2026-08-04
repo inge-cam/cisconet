@@ -1,0 +1,161 @@
+---
+import { Clock, MapPin, Phone, CalendarDays, Baby, Heart, GraduationCap, Church } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/layout/Section.astro';
+import Hero from '../components/blocks/Hero.astro';
+import InfoBar from '../components/blocks/InfoBar.astro';
+import InfoBarItem from '../components/blocks/InfoBarItem.astro';
+import PromoBand from '../components/blocks/PromoBand.astro';
+import NeedCard from '../components/cards/NeedCard.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import Button from '../components/ui/Button.astro';
+import IconoCircular from '../components/ui/IconoCircular.astro';
+import { PARROQUIA } from '../config/sitio';
+
+/**
+ * Portada — plantilla §7.1, los 11 bloques del documento 02.
+ *
+ * Construidos en este primer avance: 1 cabecera · 2 portada · 3 horarios ·
+ * 5 devoción · 6 qué necesitas · 11 pie.
+ * Pendientes (necesitan contenido real o Supabase): 4 bienvenida del párroco,
+ * 7 próximas celebraciones, 8 nuestra comunidad, 9 noticias, 10 cómo llegar.
+ */
+
+const necesidades = [
+  { titulo: 'Bautizar a mi hijo', href: '/sacramentos/bautismo', Icono: Baby },
+  { titulo: 'Casarme por la Iglesia', href: '/sacramentos/matrimonio', Icono: Heart },
+  { titulo: 'Inscribir catequesis', href: '/catequesis', Icono: GraduationCap },
+  { titulo: 'Pedir una misa', href: '/contacto', Icono: Church },
+];
+---
+
+<BaseLayout
+  titulo="Inicio"
+  descripcion={`Parroquia San Chárbel en ${PARROQUIA.barrio}, ${PARROQUIA.ciudad}. Horarios de misa, sacramentos, catequesis y vida comunitaria.`}
+  header="transparent"
+>
+  <!-- BLOQUE 2 — Portada -->
+  <Hero variante="home">
+    <p class="text-overline text-gold-300">
+      {PARROQUIA.barrio} · {PARROQUIA.ciudad}
+    </p>
+
+    <h1 class="text-display-l mt-4 text-on-dark">
+      Parroquia<br class="hidden md:inline" /> San Chárbel
+    </h1>
+
+    <div class="mt-5 h-[3px] w-12 rounded-full bg-accent"></div>
+
+    <p class="text-body-l mt-6 max-w-[46ch] text-on-dark-muted">
+      Una comunidad que reza, acompaña y celebra. Aquí encuentras los horarios
+      de misa, los sacramentos y la puerta abierta de tu parroquia.
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/horarios">
+        <CalendarDays slot="icono" class="size-4" aria-hidden="true" />
+        Ver horarios de misas
+      </Button>
+      <Button href="/agenda" variante="secondary">Próximas celebraciones</Button>
+    </div>
+  </Hero>
+
+  <!--
+    BLOQUE 3 — Horarios. NO SE MUEVE (documento 02).
+    Se superpone al hero para quedar visible sin hacer scroll.
+  -->
+  <InfoBar>
+    <InfoBarItem label="Misas entre semana">
+      <Clock slot="icono" />
+      6:30 a.m. · 6:00 p.m.
+    </InfoBarItem>
+
+    <InfoBarItem label="Misas dominicales">
+      <Church slot="icono" />
+      7:00 a.m. · 10:00 a.m. · 6:00 p.m.
+    </InfoBarItem>
+
+    <InfoBarItem label="Confesiones">
+      <Clock slot="icono" />
+      Sábados, 4:00 a 5:30 p.m.
+    </InfoBarItem>
+
+    <InfoBarItem label="Despacho parroquial">
+      <Phone slot="icono" />
+      Martes a viernes, 9:00 a.m. a 12:00 m.
+    </InfoBarItem>
+  </InfoBar>
+
+  <Section class="py-8 md:py-10">
+    <div class="flex justify-center">
+      <Button href="/horarios" variante="tertiary">Ver todos los horarios</Button>
+    </div>
+  </Section>
+
+  <!-- BLOQUE 5 — Devoción a San Chárbel. NO SE MUEVE (documento 02). -->
+  <Section sinTop>
+    <PromoBand>
+      <div
+        class="grid size-28 shrink-0 place-items-center rounded-full bg-cream-50 font-display text-h1 text-brown-700 ring-4 ring-gold-500 ring-offset-4 ring-offset-cream-100"
+        aria-hidden="true"
+      >
+        SC
+      </div>
+
+      <div class="md:flex-1">
+        <h2 class="text-h2">Devoción a San Chárbel</h2>
+        <div class="mt-3 h-[3px] w-12 rounded-full bg-accent max-md:mx-auto"></div>
+
+        <p class="text-body mt-5 max-w-[52ch] text-text-700 max-md:mx-auto">
+          Monje maronita del Líbano, ermitaño de Annaya y patrono de los
+          enfermos. Miles de personas acuden a su intercesión cada día. Conoce
+          su vida, reza la novena y confía tu intención a la comunidad.
+        </p>
+
+        <div class="mt-7 flex flex-wrap gap-3 max-md:justify-center">
+          <Button href="/san-charbel/peticiones">Envía tu petición</Button>
+          <Button href="/san-charbel" variante="tertiary">Conoce su vida</Button>
+        </div>
+      </div>
+    </PromoBand>
+  </Section>
+
+  <!-- BLOQUE 6 — ¿Qué necesitas? -->
+  <Section sinTop>
+    <SectionHeader
+      titulo="¿Qué necesitas?"
+      subtitulo="Los trámites más buscados, con sus requisitos y a quién dirigirte."
+      align="center"
+      class="mx-auto"
+    />
+
+    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        necesidades.map(({ titulo, href, Icono }) => (
+          <NeedCard titulo={titulo} href={href}>
+            <Icono slot="icono" />
+          </NeedCard>
+        ))
+      }
+    </div>
+  </Section>
+
+  <!-- CTA de cierre: regla transversal §7 -->
+  <Section sinTop>
+    <PromoBand>
+      <IconoCircular tamano={72}>
+        <MapPin />
+      </IconoCircular>
+
+      <div class="md:flex-1">
+        <h2 class="text-h3">Ven a visitarnos</h2>
+        <p class="text-body-s mt-2 max-w-[48ch] text-text-700 max-md:mx-auto">
+          Estamos en {PARROQUIA.barrio}, {PARROQUIA.ciudad}. Las puertas del
+          templo están abiertas media hora antes de cada misa.
+        </p>
+      </div>
+
+      <Button href="/contacto" class="shrink-0">Cómo llegar</Button>
+    </PromoBand>
+  </Section>
+</BaseLayout>

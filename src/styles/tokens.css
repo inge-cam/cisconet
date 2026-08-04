@@ -1,0 +1,153 @@
+/* ===========================================================================
+   Tokens — Parroquia San Chárbel
+   Fuente de verdad: docs/03-sistema-de-diseno.md §1, §2, §3
+
+   Estas son las ÚNICAS definiciones de color, tipografía, espaciado, radio y
+   sombra del proyecto. Prohibido escribir un hex o un espaciado suelto dentro
+   de un componente (§8.2).
+
+   Tailwind v4 lee este bloque @theme y genera las utilidades a partir de él,
+   así que cambiar un valor aquí cambia todo el sitio.
+   =========================================================================== */
+
+@theme {
+  /* --- Café: color base. Superficies oscuras, texto, overlays ------------ */
+  --color-brown-900: #2a1e17; /* pie, overlay de hero */
+  --color-brown-800: #33241b; /* encabezado sólido, bandas oscuras */
+  --color-brown-700: #4a362a;
+  --color-brown-600: #6b5445;
+
+  /* --- Dorado: acento principal ----------------------------------------- */
+  --color-gold-600: #b0834a; /* hover de botón primario, texto de énfasis */
+  --color-gold-500: #c89a5e; /* botón primario, reglas, iconos */
+  --color-gold-300: #e3c89a; /* borde de botón terciario */
+  --color-gold-100: #f5e9d7; /* fondo de icono circular */
+
+  /* --- Verde: acento ocasional. SOLO los 4 usos de §1.3 ------------------ */
+  --color-green-700: #2f5d4a;
+  --color-green-100: #e4ede8;
+
+  /* --- Crema: lienzo ----------------------------------------------------- */
+  --color-cream-50: #fbf9f5;
+  --color-cream-100: #f5efe6;
+  --color-cream-200: #ede5da;
+
+  /* --- Texto ------------------------------------------------------------- */
+  --color-text-900: #3b2e26; /* títulos */
+  --color-text-700: #5a4a3f; /* cuerpo */
+  --color-text-500: #7a6a5e; /* secundario, labels, metadatos */
+  --color-on-dark: #fbf9f5;
+  --color-on-dark-muted: rgba(251, 249, 245, 0.78);
+
+  /* --- Semánticos de formulario ------------------------------------------ */
+  --color-success: var(--color-green-700);
+  --color-error: #b3453a;
+  --color-warning: #c08a2e;
+
+  /* --- Alias semánticos --------------------------------------------------
+     Usa SIEMPRE estos en los componentes, no los crudos de arriba.
+     bg-canvas, bg-surface, text-ink, bg-accent, border-line…              */
+  --color-canvas: var(--color-cream-50); /* fondo de página */
+  --color-canvas-alt: var(--color-cream-100); /* bandas y bloques */
+  --color-surface: #ffffff; /* tarjetas */
+  --color-surface-dark: var(--color-brown-800); /* encabezado, bandas oscuras */
+  --color-ink: var(--color-brown-900); /* pie, superficie más oscura */
+  --color-accent: var(--color-gold-500);
+  --color-accent-hover: var(--color-gold-600);
+  --color-line: var(--color-cream-200); /* bordes y divisores */
+
+  /* --- Tipografía (§2) ---------------------------------------------------- */
+  --font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Escala fluida: el clamp resuelve escritorio → móvil sin media query */
+  --text-display-xl: clamp(2.5rem, 1.6rem + 3.6vw, 4rem); /* 64 → 40 */
+  --text-display-xl--line-height: 1.08;
+  --text-display-xl--letter-spacing: -0.01em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display-l: clamp(2.125rem, 1.5rem + 2.6vw, 3.25rem); /* 52 → 34 */
+  --text-display-l--line-height: 1.14;
+  --text-display-l--letter-spacing: -0.01em;
+  --text-display-l--font-weight: 700;
+
+  --text-h1: clamp(1.875rem, 1.5rem + 1.5vw, 2.5rem); /* 40 → 30 */
+  --text-h1--line-height: 1.2;
+  --text-h1--letter-spacing: -0.01em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: clamp(1.625rem, 1.4rem + 0.9vw, 2rem); /* 32 → 26 */
+  --text-h2--line-height: 1.25;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 700;
+
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.375rem); /* 22 → 20 */
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 700;
+
+  --text-h4: clamp(1.0625rem, 1rem + 0.15vw, 1.125rem); /* 18 → 17 */
+  --text-h4--line-height: 1.4;
+  --text-h4--font-weight: 600;
+
+  --text-body-l: 1.0625rem; /* 17 */
+  --text-body-l--line-height: 1.7;
+
+  --text-body: 1rem; /* 16 */
+  --text-body--line-height: 1.7;
+
+  --text-body-s: 0.875rem; /* 14 */
+  --text-body-s--line-height: 1.6;
+
+  --text-caption: 0.8125rem; /* 13 */
+  --text-caption--line-height: 1.5;
+
+  --text-overline: 0.75rem; /* 12 */
+  --text-overline--line-height: 1.4;
+  --text-overline--letter-spacing: 0.12em;
+  --text-overline--font-weight: 700;
+
+  /* --- Espaciado (§3.1) ---------------------------------------------------
+     Base 4px. Tailwind deriva toda la escala: p-1=4 … p-30=120            */
+  --spacing: 0.25rem;
+
+  /* --- Radios (§3.2) ------------------------------------------------------ */
+  --radius-sm: 8px; /* inputs, badges, chips */
+  --radius-md: 12px; /* tarjetas, imágenes en tarjetas */
+  --radius-lg: 16px; /* tarjetas grandes, bandas */
+  --radius-xl: 24px; /* panel flotante del hero */
+  --radius-full: 999px; /* botones, iconos circulares */
+
+  /* --- Sombras (§3.3): muy suaves y difusas ------------------------------- */
+  --shadow-sm: 0 1px 2px rgba(42, 30, 23, 0.04);
+  --shadow-md: 0 4px 16px rgba(42, 30, 23, 0.06);
+  --shadow-lg: 0 12px 32px rgba(42, 30, 23, 0.1);
+
+  /* --- Layout (§4.1) ------------------------------------------------------ */
+  --container-max: 1200px;
+
+  /* --- Breakpoints (§4.1) ------------------------------------------------- */
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+/* ---------------------------------------------------------------------------
+   Overlays de hero (§1.4). Van fuera de @theme porque son degradados
+   compuestos, no valores de un solo token.
+   --------------------------------------------------------------------------- */
+:root {
+  --overlay-dark: linear-gradient(
+    100deg,
+    rgba(42, 30, 23, 0.92) 0%,
+    rgba(42, 30, 23, 0.72) 45%,
+    rgba(42, 30, 23, 0.25) 100%
+  );
+
+  --overlay-light: linear-gradient(
+    100deg,
+    #fbf9f5 0%,
+    rgba(251, 249, 245, 0.85) 40%,
+    rgba(251, 249, 245, 0) 75%
+  );
+}

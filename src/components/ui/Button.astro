@@ -1,0 +1,80 @@
+---
+/**
+ * Botón — §6.2 del sistema de diseño.
+ *
+ * Todas las variantes son pill. Sin excepción: es la firma visual más
+ * reconocible del diseño.
+ *
+ * Renderiza <a> si recibe href, <button> si no. Nunca al revés: un enlace
+ * disfrazado de botón rompe la navegación por teclado y el clic derecho.
+ *
+ * OJO: la base trae `inline-flex`, y Tailwind emite `.inline-flex` después de
+ * `.hidden`, así que pasarle `class="hidden md:inline-flex"` NO lo oculta.
+ * Para mostrarlo u ocultarlo por breakpoint, envuélvelo:
+ *   <span class="hidden md:block"><Button …/></span>
+ */
+interface Props {
+  variante?: 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'whatsapp';
+  tamano?: 'sm' | 'md' | 'lg';
+  href?: string;
+  type?: 'button' | 'submit';
+  /** Ocupa todo el ancho disponible (panel lateral, formularios) */
+  ancho?: boolean;
+  disabled?: boolean;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  variante = 'primary',
+  tamano = 'md',
+  href,
+  type = 'button',
+  ancho = false,
+  disabled = false,
+  class: className = '',
+  ...rest
+} = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center gap-2 rounded-full font-semibold ' +
+  'transition-colors duration-200 min-h-11 text-center';
+
+const variantes = {
+  primary: 'bg-accent text-brown-900 hover:bg-accent-hover',
+  secondary: 'bg-surface text-text-900 hover:bg-cream-100',
+  tertiary: 'border border-gold-300 text-gold-600 hover:bg-gold-100',
+  ghost: 'text-gold-600 hover:text-brown-700 min-h-0 px-0',
+  whatsapp: 'bg-green-700 text-on-dark hover:bg-brown-700',
+};
+
+const tamanos = {
+  sm: 'px-[18px] py-2 text-body-s',
+  md: 'px-6 py-3 text-body-s',
+  lg: 'px-8 py-4 text-body',
+};
+
+// `ghost` es un enlace, no una cápsula: no lleva padding ni alto mínimo.
+const clases = [
+  base,
+  variantes[variante],
+  variante === 'ghost' ? 'text-body-s' : tamanos[tamano],
+  ancho && 'w-full',
+  disabled && 'opacity-45 cursor-not-allowed pointer-events-none',
+  className,
+];
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class:list={clases}
+  href={href}
+  type={href ? undefined : type}
+  disabled={href ? undefined : disabled}
+  aria-disabled={disabled ? 'true' : undefined}
+  {...rest}
+>
+  <slot name="icono" />
+  <slot />
+</Tag>

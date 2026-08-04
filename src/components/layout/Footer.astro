@@ -1,0 +1,159 @@
+---
+import { MapPin, Phone, Mail } from '@lucide/astro';
+import Container from './Container.astro';
+import IconoRed from '../ui/IconoRed.astro';
+import { PARROQUIA, ENLACES_PIE } from '../../config/sitio';
+
+/**
+ * Pie — §6.16.
+ *
+ * Repite los horarios a propósito: es el segundo lugar donde la gente los
+ * busca después de la portada (decisión del documento 02).
+ */
+
+// PENDIENTE: vendrán de Supabase (tabla `horarios`). Fijos mientras tanto.
+const horariosResumen = [
+  { dia: 'Lunes a viernes', hora: '6:30 a.m. · 6:00 p.m.' },
+  { dia: 'Sábado', hora: '6:00 p.m.' },
+  { dia: 'Domingo', hora: '7:00 a.m. · 10:00 a.m. · 6:00 p.m.' },
+];
+
+const redes = [
+  { nombre: 'Facebook', url: PARROQUIA.redes.facebook, red: 'facebook' },
+  { nombre: 'Instagram', url: PARROQUIA.redes.instagram, red: 'instagram' },
+  { nombre: 'YouTube', url: PARROQUIA.redes.youtube, red: 'youtube' },
+].filter((r) => r.url) as { nombre: string; url: string; red: 'facebook' | 'instagram' | 'youtube' }[];
+
+const anio = new Date().getFullYear();
+---
+
+<footer class="on-dark bg-ink text-on-dark-muted">
+  <Container>
+    <div class="grid gap-10 py-14 md:grid-cols-2 md:py-20 lg:grid-cols-4">
+      <!-- Marca -->
+      <div>
+        <div class="flex items-center gap-3">
+          <span
+            class="grid size-10 shrink-0 place-items-center rounded-full bg-gold-100 font-display text-h4 text-brown-800"
+            aria-hidden="true"
+          >
+            SC
+          </span>
+          <span class="leading-tight">
+            <span class="text-overline block text-gold-300">Parroquia</span>
+            <span class="block font-display text-[1.0625rem] font-bold text-on-dark">
+              San Chárbel
+            </span>
+          </span>
+        </div>
+
+        <p class="text-body-s mt-5 max-w-[32ch]">
+          Una comunidad de fe bajo la advocación de {PARROQUIA.advocacion},
+          en {PARROQUIA.barrio}, {PARROQUIA.ciudad}.
+        </p>
+
+        {
+          redes.length > 0 && (
+            <ul class="mt-6 flex gap-3">
+              {redes.map(({ nombre, url, red }) => (
+                <li>
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={nombre}
+                    class="grid size-11 place-items-center rounded-full border border-white/20 text-on-dark transition-colors hover:border-gold-500 hover:text-gold-500"
+                  >
+                    <IconoRed red={red} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+
+      <!-- Enlaces rápidos, en dos subcolumnas -->
+      <div>
+        <h2 class="text-h4 text-on-dark">Enlaces</h2>
+        <div class="mt-5 grid grid-cols-2 gap-x-6 gap-y-2">
+          {
+            ENLACES_PIE.map((columna) => (
+              <ul class="space-y-2">
+                {columna.map((enlace) => (
+                  <li>
+                    <a
+                      href={enlace.href}
+                      class="text-body-s transition-colors hover:text-gold-500"
+                    >
+                      {enlace.nombre}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Contacto -->
+      <div>
+        <h2 class="text-h4 text-on-dark">Contacto</h2>
+        <ul class="text-body-s mt-5 space-y-3">
+          <li class="flex gap-3">
+            <MapPin class="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+            <span>{PARROQUIA.direccion}</span>
+          </li>
+          {
+            PARROQUIA.telefono && (
+              <li class="flex gap-3">
+                <Phone class="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+                <a href={`tel:${PARROQUIA.telefono}`} class="hover:text-gold-500">
+                  {PARROQUIA.telefono}
+                </a>
+              </li>
+            )
+          }
+          {
+            PARROQUIA.email && (
+              <li class="flex gap-3">
+                <Mail class="mt-0.5 size-4 shrink-0 text-gold-500" aria-hidden="true" />
+                <a href={`mailto:${PARROQUIA.email}`} class="hover:text-gold-500">
+                  {PARROQUIA.email}
+                </a>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+
+      <!-- Horarios: repetidos a propósito -->
+      <div>
+        <h2 class="text-h4 text-on-dark">Horarios de misa</h2>
+        <ul class="text-body-s mt-5 space-y-3">
+          {
+            horariosResumen.map(({ dia, hora }) => (
+              <li>
+                <span class="block font-semibold text-on-dark">{dia}</span>
+                <span>{hora}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href="/horarios"
+          class="text-body-s mt-4 inline-block font-semibold text-gold-500 hover:text-gold-300"
+        >
+          Ver todos los horarios →
+        </a>
+      </div>
+    </div>
+
+    <div
+      class="text-caption flex flex-col items-center gap-2 border-t border-white/12 py-6 text-center md:flex-row md:justify-between md:text-left"
+    >
+      <p>© {anio} {PARROQUIA.nombre}. {PARROQUIA.arquidiocesis}.</p>
+      <a href="/privacidad" class="hover:text-gold-500">Aviso de privacidad</a>
+    </div>
+  </Container>
+</footer>

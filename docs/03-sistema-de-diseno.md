@@ -357,13 +357,24 @@ Los ítems con hijos (La Parroquia, San Chárbel, Sacramentos, Comunidad) abren 
 
 Padding `12px 24px` (`sm`: `8px 18px`; `lg`: `16px 32px`). Radio pill. Icono opcional a la izquierda, 18 px, `gap: 8px`. **Altura mínima táctil de 44 px.**
 
+> **Al implementar:** la base del componente trae `inline-flex`, y Tailwind emite `.inline-flex` después de `.hidden`, así que pasarle `class="hidden md:inline-flex"` **no lo oculta**. Para mostrarlo u ocultarlo por breakpoint hay que envolverlo: `<span class="hidden md:block"><Button …/></span>`.
+
 ### 6.3 `SectionHeader`
 
 Título `h2` serif + **regla dorada de 48 × 3 px** a 12 px debajo. Subtítulo opcional en `body` `--text-500`. Alineación `left` o `center`, decidida **por página completa**, no por sección suelta.
 
 ### 6.4 `InfoBar`
 
-Tarjeta blanca, `--radius-xl`, `--shadow-lg`, superpuesta al hero con `margin-top: -72px`. Celdas iguales separadas por divisores de 1 px `--color-border`. Cada una: icono circular de 56 px + label `body-s` `--text-500` + valor `h4` `--text-900`.
+Tarjeta blanca, `--radius-xl`, `--shadow-lg`, superpuesta al hero con `margin-top: -72px`. Celdas iguales separadas por divisores de 1 px `--color-border`. Cada una: icono circular de 56 px + label `body-s` `--text-500` + valor destacado en `--text-900`.
+
+**Tamaño del valor según el número de celdas:**
+
+| Celdas | Valor | Motivo |
+|---|---|---|
+| 3 | `h4` (18 px) | Es la barra de los mockups, con valores cortos |
+| 4 | `body` 600 (16 px) | La portada usa 4 celdas con horarios largos ("7:00 a.m. · 10:00 a.m. · 6:00 p.m."); a 18 px se parten en tres líneas |
+
+A 16 px semibold el valor sigue leyéndose como el dato principal frente al label.
 
 Móvil: apiladas, divisores horizontales, sin superposición negativa.
 

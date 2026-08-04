@@ -1,0 +1,30 @@
+---
+import Container from '../layout/Container.astro';
+
+/**
+ * Barra flotante bajo el hero — §6.4.
+ *
+ * En la portada lleva los horarios de misa, que es el BLOQUE 3 del documento
+ * 02 y no se puede mover: debe verse sin hacer scroll. Por eso se superpone
+ * al hero con margen negativo en vez de ir en una sección aparte.
+ */
+interface Props {
+  /** Superposición negativa sobre el hero. Se desactiva si va suelta. */
+  superpuesta?: boolean;
+  class?: string;
+}
+
+const { superpuesta = true, class: className = '' } = Astro.props;
+---
+
+<div class:list={['relative z-10', superpuesta && '-mt-16 md:-mt-18', className]}>
+  <Container>
+    <div class="rounded-xl bg-surface p-6 shadow-lg md:p-8">
+      <div
+        class="grid gap-6 divide-line md:grid-cols-2 md:divide-x lg:grid-cols-4 [&>*]:md:px-6 [&>*:first-child]:md:pl-0 [&>*:last-child]:md:pr-0"
+      >
+        <slot />
+      </div>
+    </div>
+  </Container>
+</div>

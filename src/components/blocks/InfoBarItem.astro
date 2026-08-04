@@ -1,0 +1,30 @@
+---
+import IconoCircular from '../ui/IconoCircular.astro';
+
+/** Celda de la barra flotante — §6.4 */
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className = '' } = Astro.props;
+---
+
+<div class:list={['flex items-start gap-4', className]}>
+  <IconoCircular tamano={56}>
+    <slot name="icono" />
+  </IconoCircular>
+
+  <div class="min-w-0">
+    <p class="text-body-s text-text-500">{label}</p>
+    {/*
+      El sistema pide `h4` para el valor (§6.4), pero eso está calibrado para
+      la barra de 3 celdas del mockup. La portada usa 4 celdas con horarios
+      largos ("7:00 a.m. · 10:00 a.m. · 6:00 p.m.") y a 18px se parten en tres
+      líneas. A 16px semibold siguen leyéndose como el dato principal y caben.
+    */}
+    <div class="text-body mt-1 font-semibold text-text-900">
+      <slot />
+    </div>
+  </div>
+</div>
