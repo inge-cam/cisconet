@@ -48,8 +48,11 @@ Los datos de la parroquia (dirección, teléfonos, redes) están en `src/config/
 | [`docs/01-investigacion-referentes.md`](docs/01-investigacion-referentes.md) | Análisis de 20 sitios de iglesias, catedrales, santuarios y parroquias. Características comunes, estructura de la portada, número y nombres de páginas, y cómo resuelven el cronograma de actividades. |
 | [`docs/02-arquitectura-propuesta.md`](docs/02-arquitectura-propuesta.md) | Propuesta concreta: menú, mapa del sitio, bloques de la página de inicio, contenido de cada página y decisiones pendientes. |
 | [`docs/03-sistema-de-diseno.md`](docs/03-sistema-de-diseno.md) | **Fuente de verdad visual.** Tokens de color y tipografía, espaciado, catálogo de componentes, plantillas de página, estructura de carpetas de Astro, modelo de datos de Supabase, accesibilidad y checklist de PR. |
+| [`docs/04-estructura-de-paginas.md`](docs/04-estructura-de-paginas.md) | **Plano de construcción.** Una ficha por página: bloques en orden, componentes, contenido a redactar, datos, SEO y criterio de terminada. Incluye el orden de construcción por prioridad y la lista de lo que falta pedirle a la parroquia. |
 
-> Si vas a construir una pantalla, empieza por `docs/03-sistema-de-diseno.md`. Todo componente nuevo se documenta ahí antes de darse por terminado.
+Los cuatro se leen en cascada: el 01 es la evidencia, el 02 el mapa, el 03 cómo se ve, el 04 cómo se arma cada página.
+
+> Si vas a construir una pantalla, abre el 04 para saber qué lleva y el 03 para saber con qué. Todo componente nuevo se documenta en el 03 antes de darse por terminado.
 
 ## Resumen de la propuesta
 
